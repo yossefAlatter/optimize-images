@@ -1,143 +1,112 @@
-Image Optimizer and Resizer (to WebP)
+# Image Optimizer and Resizer (to WebP)
 
 This Bash script automates the process of optimizing a directory of images for web usage. It performs three key functions:
 
-Image Type Check: Uses file content (--mime-type) to ensure it's a valid image.
+1.  **Image Type Check:** Uses file content (`--mime-type`) to ensure it's a valid image.
+2.  **Dimension Reduction:** Resizes images to a configurable maximum width (default 1280px).
+3.  **WebP Conversion & Minimization:** Converts the image to the highly efficient WebP format and applies maximum compression (`-m 6`) while maintaining a controlled quality level (`-q 75`).
 
-Dimension Reduction: Resizes images to a configurable maximum width (default 1280px).
+-----
 
-WebP Conversion & Minimization: Converts the image to the highly efficient WebP format and applies maximum compression (-m 6) while maintaining a controlled quality level (-q 75).
+## 🚀 How to Use
 
-🚀 How to Use
+### 1\. Make the Script Executable
 
-1. Make the Script Executable
+Before running, you must ensure the script has execution permissions:
 
-Before running, ensure you have execution permissions:
-
+```bash
 chmod +x optimize_and_resize.sh
+```
 
+### 2\. Run the Script
 
-2. Run the Script
+The script requires two arguments: the source folder (input) and the destination folder (output).
 
-The script requires two arguments: the source folder and the destination folder.
-
+```bash
 ./optimize_and_resize.sh <input_directory> <output_directory>
+```
 
+**Example:**
 
-Example:
-
+```bash
 ./optimize_and_resize.sh ./raw_photos ./optimized_for_web
+```
 
+-----
 
-⚙️ Configuration
+## ⚙️ Configuration
 
-You can easily adjust the script's behavior by modifying the variables at the top of the file:
+You can easily adjust the script's behavior by modifying the variables at the top of the `optimize_and_resize.sh` file:
 
-Variable
+| Variable | Description | Default Value | Recommendation |
+| :--- | :--- | :--- | :--- |
+| **`MAX_QUALITY`** | The JPEG/WebP quality factor (0-100). Lower is smaller. | `75` | Keep between 75-85 for good quality, or try 50-60 for maximum file size reduction. |
+| **`MAX_WIDTH`** | The maximum width (in pixels) for output images. | `1280` | Set this to match the max width of your HTML container (e.g., 1280px) to prevent downloading unnecessarily large images. Set to `0` to skip resizing. |
+| **`COMPRESSION_METHOD`** | The effort level (0-6) for `cwebp`. `6` is max effort (slowest but smallest file size). | `6` | Leave at `6` for the best results. |
 
-Description
+-----
 
-Default Value
+## 🛠️ Prerequisites (Needed Packages)
 
-Recommendation
+This script relies on three essential command-line utilities:
 
-MAX_QUALITY
+| Tool | Purpose | Source Package (Debian/Ubuntu) |
+| :--- | :--- | :--- |
+| **`file`** | Content-based file type checking. | Typically pre-installed |
+| **`cwebp`** | Converts and compresses to WebP format. | `libwebp-tools` or `webp` |
+| **`convert`** | Resizes and strips metadata from images. | `imagemagick` |
 
-The JPEG/WebP quality factor (0-100). Lower is smaller.
+### 📦 Installation Steps
 
-75
+#### 🐧 Linux (Debian/Ubuntu/WSL)
 
-Keep between 75-85 for good quality, or try 50-60 for maximum file size reduction.
+1.  **Update Package Lists:**
 
-MAX_WIDTH
+    ```bash
+    sudo apt update
+    ```
 
-The maximum width (in pixels) for output images.
+2.  **Install ImageMagick (for Resizing):**
 
-1280
+    ```bash
+    sudo apt install imagemagick
+    ```
 
-Set this to match the maximum width of your HTML container (e.g., 1280px) to prevent users from downloading unnecessarily large images. Set to 0 to skip resizing.
+3.  **Install WebP Tools (for Conversion):**
 
-COMPRESSION_METHOD
+    ```bash
+    sudo apt install webp
+    # If 'webp' is not found, try: sudo apt install libwebp-tools
+    ```
 
-The effort level (0-6) for cwebp. 6 is max effort (slowest but smallest file size).
+#### 🍎 macOS (Using Homebrew)
 
-6
+You will need **Homebrew** installed first.
 
-Leave at 6 for the best results.
+1.  **Install ImageMagick (for Resizing):**
 
-🛠️ Prerequisites (Needed Packages)
+    ```bash
+    brew install imagemagick
+    ```
 
-This script relies on three essential command-line utilities: file, cwebp (WebP Tools), and convert (ImageMagick).
+2.  **Install WebP Tools (for Conversion):**
 
-Tool
+    ```bash
+    brew install webp
+    ```
 
-Purpose
+#### 🪟 Windows (Using Chocolatey)
 
-Source Package (Debian/Ubuntu)
+This script must be run inside an environment that supports Bash (like **Git Bash** or **WSL**). You will need **Chocolatey** installed first.
 
-file
+1.  **Install ImageMagick (for Resizing):**
 
-Content-based file type checking.
+    ```bash
+    choco install imagemagick
+    ```
 
-Typically pre-installed
+2.  **Install WebP Tools (for Conversion):**
 
-cwebp
-
-Converts and compresses to WebP format.
-
-libwebp-tools or webp
-
-convert
-
-Resizes and strips metadata from images.
-
-imagemagick
-
-📦 Installation Steps
-
-🐧 Linux (Debian/Ubuntu/WSL)
-
-Update Package Lists:
-
-sudo apt update
-
-
-Install ImageMagick (for Resizing):
-
-sudo apt install imagemagick
-
-
-Install WebP Tools (for Conversion):
-
-sudo apt install webp
-# If 'webp' is not found, try: sudo apt install libwebp-tools
-
-
-🍎 macOS (Using Homebrew)
-
-You will need Homebrew (the macOS package manager) installed first. If you don't have it, install it by running the command found on the official Homebrew website.
-
-Install ImageMagick (for Resizing):
-
-brew install imagemagick
-
-
-Install WebP Tools (for Conversion):
-
-brew install webp
-
-
-🪟 Windows (Using Chocolatey)
-
-This script must be run inside an environment that supports Bash (like Git Bash or WSL).
-
-You will need Chocolatey (the Windows package manager) installed first. If you don't have it, follow the instructions on the official Chocolatey website.
-
-Install ImageMagick (for Resizing):
-
-choco install imagemagick
-
-
-Install WebP Tools (for Conversion):
-
-choco install libwebp
+    ```bash
+    choco install libwebp
+    ```
